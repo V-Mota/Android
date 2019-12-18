@@ -9,17 +9,32 @@ from heapq import nlargest
 
 mouse = Controller()
 
-area_pergunta = (1440, 120, 1890, 620)
-area_r1 = (1440, 700, 1890, 755)
-area_r2 = (1440, 765, 1890, 825)
-area_r3 = (1440, 835, 1890, 890)
-area_r4 = (1440, 900, 1890, 955)
+# area_pergunta = (1440, 120, 1890, 620)
+# area_r1 = (1440, 700, 1890, 755)
+# area_r2 = (1440, 765, 1890, 825)
+# area_r3 = (1440, 835, 1890, 890)
+# area_r4 = (1440, 900, 1890, 955)
+#
+# ajuda_location = (1490, 665)
+# r1_location = (1490, 730)
+# r2_location = (1490, 795)
+# r3_location = (1490, 865)
+# r4_location = (1490, 930)
 
-ajuda_location = (1490, 665)
-r1_location = (1490, 730)
-r2_location = (1490, 795)
-r3_location = (1490, 865)
-r4_location = (1490, 930)
+area_pergunta = (1000, 250, 1890, 650)
+area_r1 = (970,  850, 1900,  890)
+area_r2 = (970,  900, 1900,  940)
+area_r3 = (970,  950, 1900,  990)
+area_r4 = (970, 1000, 1900, 1040)
+
+ajuda_location = (980, 820)
+r1_location = (980,  860)
+r2_location = (980,  910)
+r3_location = (980,  960)
+r4_location = (980, 1010)
+
+
+
 r_locations = [r1_location, r2_location, r3_location, r4_location]
 
 json_file = '/home/vmota/scripts/quiz.json'
@@ -32,7 +47,10 @@ def click(pos):
     # mouse.position = (5, 1075)
     mouse.position = pos
     # Click the left button
+    mouse.click(Button.left, 5)
+    sleep(0.05)
     mouse.click(Button.left, 1)
+
 
 def resposta_aleatoria():
     return randrange(4)
@@ -52,14 +70,13 @@ def main():
 
     data = read_json()
 
-    click(r4_location)
-    sleep(2)
-    click(r4_location)
-    sleep(5)
+    # click(r4_location)
+    # sleep(2)
+    # click(r4_location)
+    # sleep(5)
 
     for _ in range(2):
-        print("############################")
-        sleep(4)
+
         myScreenshot = pyautogui.screenshot()
 
         pergunta_img = myScreenshot.crop(area_pergunta)
@@ -134,7 +151,10 @@ def main():
             # click(r_locations[r])
             click(r1_location)
 
+        sleep(3)
+        print("############################")
 
+    #end of for loop
     write_json(data)
 
 if __name__ == "__main__":
