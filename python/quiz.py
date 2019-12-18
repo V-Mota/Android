@@ -1,5 +1,6 @@
 import pyautogui
 import pytesseract
+
 import json
 import time
 
@@ -54,11 +55,11 @@ def main():
     click(r4_location)
     sleep(2)
     click(r4_location)
-    sleep(4)
+    sleep(5)
 
     for _ in range(2):
         print("############################")
-        sleep(3)
+        sleep(4)
         myScreenshot = pyautogui.screenshot()
 
         pergunta_img = myScreenshot.crop(area_pergunta)
@@ -82,6 +83,7 @@ def main():
 
         if pergunta in data:
             resposta_string = data[pergunta]["certa"]
+            print("I know the answer: {}".format(resposta_string))
             if resposta_string == r1:
                 click(r1_location)
 
@@ -102,7 +104,7 @@ def main():
         elif ajudas > 0:
             ajudas = 0
             click(ajuda_location)
-            sleep(1)
+            sleep(1.8)
             myScreenshot = pyautogui.screenshot()
             pixels = myScreenshot.load()
             r1, g1, b1 = pixels[r1_location[0], r1_location[1]]
@@ -110,19 +112,27 @@ def main():
             r3, g3, b3 = pixels[r3_location[0], r3_location[1]]
             r4, g4, b4 = pixels[r4_location[0], r4_location[1]]
 
+            print("R1 - R: {} - G: {} - B: {}".format(r1, g1, b1))
+            print("R2 - R: {} - G: {} - B: {}".format(r2, g2, b2))
+            print("R3 - R: {} - G: {} - B: {}".format(r3, g3, b3))
+            print("R4 - R: {} - G: {} - B: {}".format(r4, g4, b4))
+
             index_certo = 0;
             greenest = 0;
-            for i, r in enumerate([r1, r2, r3, r4]):
-                if r > greenest:
+            for i, g in enumerate([g1, g2, g3, g4]):
+                if g > greenest:
+                    greenest = g
                     index_certo = i
+
 
             resposta_certa = respostas[index_certo]
             data.update({pergunta: {"certa": resposta_certa}})
             print("Usei ajuda: {}".format(resposta_certa))
 
         else:
-            r = resposta_aleatoria
-            click(r_locations(r))
+            # r = resposta_aleatoria
+            # click(r_locations[r])
+            click(r1_location)
 
 
     write_json(data)
